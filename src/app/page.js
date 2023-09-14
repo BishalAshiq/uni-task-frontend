@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from './page.module.css'
-import Sidebar from '@/component/Sidebar/Sidebar'
+// import Sidebar from '@/component/Sidebar/Sidebar'
 
 
 export default function Home() {
@@ -94,7 +94,7 @@ export default function Home() {
     //   </div>
     // </main>
     <div>
-<Sidebar/>
+{/* <Sidebar/> */}
     </div>
 
   )

@@ -17,15 +17,24 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+import HomePage from '../../pages/home/page'; // Import your page components
+import AboutPage from '../../pages/about/page';
 
 const drawerWidth = 240;
 
 function Sidebar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [selectedPage, setSelectedPage] = React.useState('Home');
   
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
+    };
+
+    const handleSidebarItemClick = (page) => {
+      setSelectedPage(page); // Set the selected page when a sidebar item is clicked
+      setMobileOpen(false); // Close the sidebar on mobile
     };
   
     const drawer = (
@@ -33,38 +42,38 @@ function Sidebar(props) {
         <Toolbar />
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        {['Home', 'About'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton onClick={() => handleSidebarItemClick(text)}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
       </div>
     );
   
     const container = window !== undefined ? () => window().document.body : undefined;
 
 
+    // Display the selected page content based on the `selectedPage` state
+const renderPageContent = () => {
+  switch (selectedPage) {
+    case 'Home':
+      return <HomePage />;
+    case 'About':
+      return <AboutPage />;
+    default:
+      return <div>Page Not Found</div>;
+  }
+};
+
   return (
-    <div>  <Box sx={{ display: 'flex' }}>
+    <div>  
+      <Box sx={{ display: 'flex' }}>
     <CssBaseline />
     <AppBar
       position="fixed"
@@ -125,7 +134,7 @@ function Sidebar(props) {
       sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
     >
       <Toolbar />
-      <Typography paragraph>
+      {/* <Typography paragraph>
         Losssssssssssssssssrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
         enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
@@ -151,9 +160,11 @@ function Sidebar(props) {
         tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
         eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
         posuere sollicitudin aliquam ultrices sagittis orci a.
-      </Typography>
+      </Typography> */}
+      <main>{renderPageContent()}</main>
     </Box>
-  </Box></div>
+  </Box>
+  </div>
   )
 }
 
